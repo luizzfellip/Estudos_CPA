@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int mochilaPD(vector<pair<int,int>> lista_produtos,int W){
+vector<int> mochilaPD(const vector<pair<int,int>> &lista_produtos,int W){
     int n = lista_produtos.size();
     vector<vector<int>> custo(n+1,vector<int>(W+1)); // adiciona +1 para considerar peso/itens = 0
     
@@ -19,7 +19,7 @@ int mochilaPD(vector<pair<int,int>> lista_produtos,int W){
                     );
         }
     }
-    return custo[n][W];
+    return custo[n];
 }
 
 int main(){
@@ -32,31 +32,34 @@ int main(){
         vector<pair<int,int>> lista_produtos (produtos);
 
         for(int i=0;i<produtos;i++){
-            int preco;
-            int peso;
             scanf("%d %d",&lista_produtos[i].first,&lista_produtos[i].second);
         }
 
         int pessoas;
         scanf("%d",&pessoas);
         vector<int> familia (pessoas);
-        for(int i=0;i<pessoas;i++){
-            int preco;
-            int peso;
+        int maior_capacidade = 0;
+
+        for(int i=0;i<pessoas;i++){;
             scanf("%d",&familia[i]);
+            maior_capacidade = max(maior_capacidade,familia[i]);
+        }
+        
+        vector<int> melhores = mochilaPD(lista_produtos,maior_capacidade);
+        
+        int sum_total = 0;
+        for(int capacidade : familia){
+            sum_total += melhores[capacidade];
         }
 
-        int sum_total = 0;
-        for(int i=0;i<familia.size();i++){
-            sum_total += mochilaPD(lista_produtos,familia[i]);
-        }
-        printf("%d \n",sum_total);
+        printf("%d\n",sum_total);
+
     }
 
     return 0;
 }
 
 /*
-    Tempo: O(G * N * W)
+    Tempo: O(G + N * W)
     Espaço: O(N * W)
 */
