@@ -50,3 +50,8 @@ int main() {
 
     return 0;
 }
+
+/*
+    Tempo:  O((C+V) log(C+V))
+    Espaço: O(C + V)
+*/
